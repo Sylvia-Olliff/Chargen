@@ -4,7 +4,7 @@ import chargen.lib.character.data.dnd.CharacterData
 import chargen.lib.character.data.dnd.templates.Feature
 import chargen.lib.character.data.dnd.types.FeatureType
 
-class SpellSlotsFeature(override val featureData: FeatureData) : Feature {
+internal class SpellSlotsFeature(override val featureData: FeatureData) : Feature {
     override val featureType: FeatureType = FeatureType.SPELL_SLOTS
 
     override fun modifyCharacter(item: CharacterData): CharacterData {

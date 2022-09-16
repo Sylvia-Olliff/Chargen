@@ -9,7 +9,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 @kotlinx.serialization.ExperimentalSerializationApi
-class RaceRegistry {
+internal class RaceRegistry {
     companion object: Registry<RaceData>() {
 
         override fun load() {

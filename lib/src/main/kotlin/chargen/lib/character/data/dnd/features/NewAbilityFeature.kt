@@ -4,7 +4,7 @@ import chargen.lib.character.data.dnd.CharacterData
 import chargen.lib.character.data.dnd.templates.Feature
 import chargen.lib.character.data.dnd.types.FeatureType
 
-class NewAbilityFeature(override val featureData: FeatureData) : Feature {
+internal class NewAbilityFeature(override val featureData: FeatureData) : Feature {
     override val featureType: FeatureType = FeatureType.NEW_ABILITY
 
     override fun modifyCharacter(item: CharacterData): CharacterData {

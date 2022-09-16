@@ -5,7 +5,7 @@ import chargen.lib.character.data.dnd.templates.Feature
 import chargen.lib.character.data.dnd.types.FeatureType
 import chargen.lib.character.data.dnd.utils.Utils
 
-class StatIncreaseFeature(override val featureData: FeatureData) : Feature {
+internal class StatIncreaseFeature(override val featureData: FeatureData) : Feature {
     override val featureType: FeatureType = FeatureType.STAT_INCREASE
 
     override fun modifyCharacter(item: CharacterData): CharacterData {

@@ -8,7 +8,8 @@ import kotlinx.serialization.json.encodeToStream
 import java.io.File
 import java.io.FileOutputStream
 
-class SkillRegistry {
+@kotlinx.serialization.ExperimentalSerializationApi
+internal class SkillRegistry {
     companion object : Registry<SkillData>() {
 
         override fun load() {

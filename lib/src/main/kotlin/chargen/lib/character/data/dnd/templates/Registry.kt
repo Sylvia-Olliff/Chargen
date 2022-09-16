@@ -4,7 +4,7 @@ import chargen.lib.exceptions.KeyNotFoundException
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 
-open class Registry<T : DataEntity> {
+internal open class Registry<T : DataEntity> {
     protected val REGISTRY: MutableMap<UUID, T> = mutableMapOf()
     protected val registryLock = ReentrantLock()
 
