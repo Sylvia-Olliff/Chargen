@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.targets
 
 plugins {
     id("chargen.kotlin-library-conventions")
+    kotlin("plugin.serialization") version "1.6.10"
 }
 
 dependencies {
