@@ -2,7 +2,6 @@ package chargen.app.root
 
 import chargen.app.ui.window.components.CharacterEditComponent
 import chargen.app.ui.window.components.DataEditComponent
-import chargen.app.ui.window.components.MainMenuComponent
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -19,7 +18,7 @@ class ChargenRootComponent constructor(
 
     private val stack = childStack(
         source = navigation,
-        initialStack = { listOf(Config.Main) },
+        initialStack = { listOf(Config.Characters) },
         childFactory = ::child
     )
 
@@ -27,7 +26,6 @@ class ChargenRootComponent constructor(
 
     private fun child(config: Config, componentContext: ComponentContext): ChargenRoot.Child =
         when (config) {
-            is Config.Main -> ChargenRoot.Child.MainMenuChild(MainMenuComponent(componentContext))
             is Config.Characters -> ChargenRoot.Child.CharacterEditChild(CharacterEditComponent(componentContext))
             is Config.Data -> ChargenRoot.Child.DataEditChild(DataEditComponent(componentContext))
         }
@@ -40,16 +38,11 @@ class ChargenRootComponent constructor(
         navigation.bringToFront(Config.Data)
     }
 
-    override fun onMainMenuClicked() {
-        navigation.bringToFront(Config.Main)
-    }
 
     private sealed interface Config : Parcelable {
         @Parcelize
         object Characters : Config
         @Parcelize
         object Data : Config
-        @Parcelize
-        object Main : Config
     }
 }

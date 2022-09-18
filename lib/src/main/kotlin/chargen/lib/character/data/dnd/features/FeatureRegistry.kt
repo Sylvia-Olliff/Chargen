@@ -12,7 +12,7 @@ import java.io.FileOutputStream
 internal class FeatureRegistry {
     companion object : Registry<FeatureData>() {
 
-        override fun load() {
+        override suspend fun load() {
             val file = File(Config.getConfig().registry.dataLocation + Config.getConfig().registry.featuresFileName)
             val entries: List<FeatureData>
             file.inputStream().use {
@@ -27,12 +27,12 @@ internal class FeatureRegistry {
             registryLock.unlock()
         }
 
-        override fun save() {
+        override suspend fun save() {
             val file = File(Config.getConfig().registry.dataLocation + Config.getConfig().registry.featuresFileName)
 
             try {
                 registryLock.lock()
-                FileOutputStream(file).use {
+                file.outputStream().use {
                     Json.encodeToStream(REGISTRY.values.toList(), it)
                 }
             } finally {

@@ -10,6 +10,7 @@ import chargen.lib.character.data.dnd.races.RaceRegistry
 import chargen.lib.character.data.dnd.skills.SkillData
 import chargen.lib.character.data.dnd.skills.SkillRegistry
 import chargen.lib.character.data.dnd.templates.DataEntity
+import chargen.lib.character.data.dnd.utils.Utils
 import chargen.lib.config.Config
 import java.util.*
 
@@ -17,13 +18,19 @@ import java.util.*
 class API {
     init {
         Config.loadConfig()
-        ClassRegistry.load()
-        RaceRegistry.load()
-        FeatureRegistry.load()
-        SkillRegistry.load()
     }
 
     companion object {
+        /**
+         * WARNING: This will wipe any unsaved data
+         */
+        suspend fun loadData() {
+            ClassRegistry.load()
+            RaceRegistry.load()
+            FeatureRegistry.load()
+            SkillRegistry.load()
+        }
+
         /* GETTERS */
         fun getClasses(): List<ClassData> = ClassRegistry.getList()
         fun getRaces(): List<RaceData> = RaceRegistry.getList()
@@ -35,6 +42,8 @@ class API {
         val RaceBuilder = RaceData.Builder
         val CharacterBuilder = CharacterData.Builder
 
+        fun getAbilityModifier(statValue: Int) = Utils.convertAttributeToModifier(statValue)
+
         /* SETTERS */
         suspend fun <T : DataEntity> register(item: T) {
             when (item) {
@@ -44,5 +53,24 @@ class API {
                 is SkillData -> SkillRegistry.register(item)
             }
         }
+
+        suspend fun <T : DataEntity> delete(item: T) {
+            when (item) {
+                is ClassData -> ClassRegistry.delete(item.id)
+                is RaceData -> RaceRegistry.delete(item.id)
+                is FeatureData -> FeatureRegistry.delete(item.id)
+                is SkillData -> SkillRegistry.delete(item.id)
+            }
+        }
+
+        suspend fun delete (id: UUID) {
+            if (ClassRegistry.validate(id)) ClassRegistry.delete(id)
+            if (RaceRegistry.validate(id)) RaceRegistry.delete(id)
+            if (FeatureRegistry.validate(id)) FeatureRegistry.delete(id)
+            if (SkillRegistry.validate(id)) SkillRegistry.delete(id)
+        }
+
+        /* MANAGEMENT */
+
     }
 }

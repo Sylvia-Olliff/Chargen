@@ -38,6 +38,6 @@ internal open class Registry<T : DataEntity> {
         return this.REGISTRY.containsKey(id)
     }
 
-    open fun load() {}
-    open fun save() {}
+    open suspend fun load() {}
+    open suspend fun save() {}
 }
