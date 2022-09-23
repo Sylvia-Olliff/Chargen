@@ -1,6 +1,7 @@
 package chargen.app.root
 
 import chargen.app.ui.window.components.CharacterEditComponent
+import chargen.app.ui.window.components.CharacterNewComponent
 import chargen.app.ui.window.components.DataEditComponent
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -18,7 +19,7 @@ class ChargenRootComponent constructor(
 
     private val stack = childStack(
         source = navigation,
-        initialStack = { listOf(Config.Characters) },
+        initialStack = { listOf(Config.CharacterNew) },
         childFactory = ::child
     )
 
@@ -26,12 +27,17 @@ class ChargenRootComponent constructor(
 
     private fun child(config: Config, componentContext: ComponentContext): ChargenRoot.Child =
         when (config) {
-            is Config.Characters -> ChargenRoot.Child.CharacterEditChild(CharacterEditComponent(componentContext))
+            is Config.CharacterNew -> ChargenRoot.Child.CharacterNewChild(CharacterNewComponent(componentContext))
+            is Config.CharacterEdit -> ChargenRoot.Child.CharacterEditChild(CharacterEditComponent(componentContext))
             is Config.Data -> ChargenRoot.Child.DataEditChild(DataEditComponent(componentContext))
         }
 
+    override fun onNewCharacterClicked() {
+        navigation.bringToFront(Config.CharacterNew)
+    }
+
     override fun onEditCharacterClicked() {
-        navigation.bringToFront(Config.Characters)
+        navigation.bringToFront(Config.CharacterEdit)
     }
 
     override fun onEditDataClicked() {
@@ -41,7 +47,9 @@ class ChargenRootComponent constructor(
 
     private sealed interface Config : Parcelable {
         @Parcelize
-        object Characters : Config
+        object CharacterNew: Config
+        @Parcelize
+        object CharacterEdit : Config
         @Parcelize
         object Data : Config
     }

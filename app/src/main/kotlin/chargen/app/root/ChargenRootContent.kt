@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import chargen.app.ui.window.content.CharacterEditContent
 import chargen.app.ui.window.content.DataEditContent
 import chargen.app.root.ChargenRoot.Child.*
+import chargen.app.ui.window.content.CharacterNewContent
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.*
@@ -34,12 +35,25 @@ fun ChargenRootContent(root: ChargenRoot, modifier: Modifier = Modifier) {
             animation = tabAnimation()
         ) {
             when (val child = it.instance) {
+                is CharacterNewChild -> CharacterNewContent(component = child.component, modifier = Modifier.fillMaxSize())
                 is CharacterEditChild -> CharacterEditContent(component = child.component, modifier = Modifier.fillMaxSize())
                 is DataEditChild -> DataEditContent(component = child.component, modifier = Modifier.fillMaxSize())
             }
         }
 
         BottomNavigation(modifier = Modifier.fillMaxWidth()) {
+            BottomNavigationItem(
+                selected = activeComponent is CharacterNewChild,
+                onClick = root::onNewCharacterClicked,
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "New Character"
+                    )
+                },
+                label = { Text(text = "New Character") }
+            )
+
             BottomNavigationItem(
                 selected = activeComponent is CharacterEditChild,
                 onClick = root::onEditCharacterClicked,
@@ -82,6 +96,7 @@ private val ChargenRoot.Child.index: Int
         when (this) {
             is ChargenRoot.Child.CharacterEditChild -> 0
             is ChargenRoot.Child.DataEditChild -> 1
+            is ChargenRoot.Child.CharacterNewChild -> 2
         }
 
 @OptIn(ExperimentalDecomposeApi::class)
