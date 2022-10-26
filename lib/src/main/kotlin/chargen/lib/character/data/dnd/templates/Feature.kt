@@ -12,14 +12,15 @@ interface Feature {
     fun modifyCharacter(item: CharacterData): CharacterData
 
     fun verify(item: CharacterData): Boolean = runBlocking {
-        featureData.requiredFeatures.forEach { featureId ->
-            if (item.getCurrentFeatures().find { it.id == featureId } == null) {
-                return@runBlocking false
-            }
-        }
-        if (item.level < featureData.levelGained) {
-            return@runBlocking false
-        }
+//        featureData.requiredFeatures.forEach { featureId ->
+//            if (item.getCurrentFeatures().find { it.id == featureId } == null) {
+//                return@runBlocking false
+//            }
+//        }
+//        if (item.level < featureData.levelGained) {
+//            return@runBlocking false
+//        }
+//        return@runBlocking true
         return@runBlocking true
     }
 }

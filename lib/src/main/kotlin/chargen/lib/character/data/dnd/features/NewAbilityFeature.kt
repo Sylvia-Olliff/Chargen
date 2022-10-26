@@ -10,7 +10,7 @@ internal class NewAbilityFeature(override val featureData: FeatureData) : Featur
     override fun modifyCharacter(item: CharacterData): CharacterData {
         if (!verify(item)) return item
 
-        item.addAbility(this.featureData.description)
+//        item.addAbility(this.featureData.description)
         return item
     }
 }

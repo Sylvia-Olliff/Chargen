@@ -13,5 +13,6 @@ enum class Stats {
     INIT,
     SPEED,
     TMP_HP,
-    SPELL_DC
+    SPELL_DC,
+    NONE
 }

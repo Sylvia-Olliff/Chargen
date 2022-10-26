@@ -1,0 +1,317 @@
+import chargen.lib.character.data.dnd.classes.CasterClassData;
+import chargen.lib.character.data.dnd.templates.Proficiency;
+import chargen.lib.character.data.dnd.types.DiceType;
+import chargen.lib.character.data.dnd.types.FeatureType;
+import chargen.lib.character.data.dnd.types.Stats;
+import java.lang.Boolean;
+import java.lang.Long;
+import kotlin.collections.List;
+import kotlin.collections.Map;
+import kotlin.collections.MutableMap;
+
+
+CREATE TABLE IF NOT EXISTS ClassDataEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    isCaster INTEGER AS Boolean DEFAULT 0 NOT NULL,
+    hitDie TEXT AS DiceType NOT NULL,
+    numAttacks INTEGER AS Int NOT NULL,
+    resourceName TEXT,
+    resource INTEGER AS Int,
+    proficiencies TEXT AS List<Proficiency>,
+    features TEXT AS List<Long>,
+    casterClassData TEXT AS CasterClassData
+);
+
+getClassDataAll:
+SELECT *
+FROM ClassDataEntity;
+
+getClassData:
+SELECT *
+FROM ClassDataEntity
+WHERE id = ?;
+
+getFeatureList:
+SELECT features
+FROM ClassDataEntity
+WHERE id = ?;
+
+getProficiencyList:
+SELECT proficiencies
+FROM ClassDataEntity
+WHERE id = ?;
+
+registerClassData:
+INSERT OR REPLACE INTO ClassDataEntity(name, isCaster, hitDie, numAttacks, resourceName, resource, proficiencies, features, casterClassData)
+VALUES ?;
+
+updateClassName:
+UPDATE ClassDataEntity
+SET name = :name
+WHERE id = :id;
+
+updateHitDie:
+UPDATE ClassDataEntity
+SET hitDie = :hitDie
+WHERE id = :id;
+
+updateNumAttacks:
+UPDATE ClassDataEntity
+SET numAttacks = :numAttacks
+WHERE id = :id;
+
+updateResources:
+UPDATE ClassDataEntity
+SET resource = :resource, resourceName = :resourceName
+WHERE id = :id;
+
+updateClassProficiencies:
+UPDATE ClassDataEntity
+SET proficiencies = :proficiencies
+WHERE id = :id;
+
+updateClassFeatures:
+UPDATE ClassDataEntity
+SET features = :features
+WHERE id = :id;
+
+updateCasterData:
+UPDATE ClassDataEntity
+SET casterClassData = :casterClassData
+WHERE id = :id;
+
+updateIsCasterFlag:
+UPDATE ClassDataEntity
+SET isCaster = :isCaster
+WHERE id = :id;
+
+deleteClassData:
+DELETE FROM ClassDataEntity
+WHERE id = ?;
+
+clearClasses:
+DELETE FROM ClassDataEntity;
+
+CREATE TABLE IF NOT EXISTS FeatureDataEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    levelGained INTEGER AS Int NOT NULL,
+    description TEXT NOT NULL,
+    groupName TEXT NOT NULL,
+    requiredFeatures TEXT AS List<Long>,
+    featureType TEXT AS FeatureType NOT NULL,
+    value INTEGER AS Int,
+    stat TEXT AS Stats,
+    sourceStat TEXT AS Stats,
+    spellSlots TEXT AS MutableMap<Int, MutableMap<Int, Int>>
+);
+
+getAllFeatures:
+SELECT *
+FROM FeatureDataEntity;
+
+getFeature:
+SELECT *
+FROM FeatureDataEntity
+WHERE id = ?;
+
+getFeatures:
+SELECT *
+FROM FeatureDataEntity
+WHERE id IN ?;
+
+getFeatureRequiredFeatures:
+SELECT requiredFeatures
+FROM FeatureDataEntity
+WHERE id = :id;
+
+updateFeatureName:
+UPDATE FeatureDataEntity
+SET name = :name
+WHERE id = :id;
+
+updateFeatureLevelGained:
+UPDATE FeatureDataEntity
+SET levelGained = :levelGained
+WHERE id = :id;
+
+updateFeatureDescription:
+UPDATE FeatureDataEntity
+SET description = :description
+WHERE id = :id;
+
+updateFeatureGroupName:
+UPDATE FeatureDataEntity
+SET groupName = :groupName
+WHERE id = :id;
+
+updateRequiredFeatures:
+UPDATE FeatureDataEntity
+SET requiredFeatures = :requiredFeatures
+WHERE id = :id;
+
+updateFeatureType:
+UPDATE FeatureDataEntity
+SET featureType = :featureType
+WHERE id = :id;
+
+updateFeatureValue:
+UPDATE FeatureDataEntity
+SET value = :value
+WHERE id = :id;
+
+updateFeatureStat:
+UPDATE FeatureDataEntity
+SET stat = :stat
+WHERE id = :id;
+
+updateFeatureSourceStat:
+UPDATE FeatureDataEntity
+SET sourceStat = :stat
+WHERE id = :id;
+
+updateFeatureSpellSlots:
+UPDATE FeatureDataEntity
+SET spellSlots = :spellSlots
+WHERE id = :id;
+
+getFeaturesByGroup:
+SELECT *
+FROM FeatureDataEntity
+WHERE groupName = ?;
+
+getFeaturesByType:
+SELECT *
+FROM FeatureDataEntity
+WHERE featureType = ?;
+
+registerFeatureData:
+INSERT OR REPLACE INTO FeatureDataEntity(name, levelGained, description, groupName, requiredFeatures, featureType, value, stat,
+sourceStat, spellSlots)
+VALUES ?;
+
+deleteFeature:
+DELETE FROM FeatureDataEntity
+WHERE id = ?;
+
+clearFeatures:
+DELETE FROM FeatureDataEntity;
+
+CREATE TABLE IF NOT EXISTS RaceDataEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    raceNamePlural TEXT NOT NULL,
+    description TEXT NOT NULL,
+    statMods TEXT AS Map<Stats, Int>,
+    proficiencies TEXT AS List<Proficiency>,
+    features TEXT AS List<Long>
+);
+
+getRaceData:
+SELECT *
+FROM RaceDataEntity
+WHERE id = ?;
+
+getAllRaces:
+SELECT *
+FROM RaceDataEntity;
+
+selectRaceProficiencies:
+SELECT proficiencies
+FROM RaceDataEntity
+WHERE id = :id;
+
+selectRaceFeatures:
+SELECT features
+FROM RaceDataEntity
+WHERE id = :id;
+
+registerRaceData:
+INSERT OR REPLACE INTO RaceDataEntity(name, raceNamePlural, description, statMods, proficiencies, features)
+VALUES ?;
+
+deleteRaceData:
+DELETE FROM RaceDataEntity
+WHERE id = ?;
+
+clearRaceData:
+DELETE FROM RaceDataEntity;
+
+updateRaceName:
+UPDATE RaceDataEntity
+SET name = :name
+WHERE id = :id;
+
+updateRaceNamePlural:
+UPDATE RaceDataEntity
+SET raceNamePlural = :name
+WHERE id = :id;
+
+updateRaceDescription:
+UPDATE RaceDataEntity
+SET description = :description
+WHERE id = :id;
+
+updateRaceStatMods:
+UPDATE RaceDataEntity
+SET statMods = :statMods
+WHERE id = :id;
+
+updateRaceProficiencies:
+UPDATE RaceDataEntity
+SET proficiencies = :proficiencies
+WHERE id = :id;
+
+updateRaceFeatures:
+UPDATE RaceDataEntity
+SET features = :features
+WHERE id = :id;
+
+CREATE TABLE IF NOT EXISTS SkillDataEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    stat TEXT AS Stats NOT NULL,
+    untrained INTEGER AS Boolean DEFAULT 1 NOT NULL
+);
+
+getSkillData:
+SELECT *
+FROM SkillDataEntity
+WHERE id = ?;
+
+getAllSkills:
+SELECT *
+FROM SkillDataEntity;
+
+registerSkill:
+INSERT OR REPLACE INTO SkillDataEntity(name, description, stat, untrained)
+VALUES ?;
+
+deleteSkill:
+DELETE FROM SkillDataEntity
+WHERE id = ?;
+
+clearSkills:
+DELETE FROM SkillDataEntity;
+
+updateSkillName:
+UPDATE SkillDataEntity
+SET name = :name
+WHERE id = :id;
+
+updateSkillDescription:
+UPDATE SkillDataEntity
+SET description = :description
+WHERE id = :id;
+
+updateSkillStat:
+UPDATE SkillDataEntity
+SET stat = :stat
+WHERE id = :id;
+
+updateSkillUntrained:
+UPDATE SkillDataEntity
+SET untrained = :untrained
+WHERE id = :id;

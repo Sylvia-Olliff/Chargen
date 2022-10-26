@@ -10,21 +10,21 @@ internal class SpellSlotsFeature(override val featureData: FeatureData) : Featur
     override fun modifyCharacter(item: CharacterData): CharacterData {
         if (!verify(item)) return item
 
-        item.getClassData()?.casterData?.spellsPerLevel = item.getClassData()?.casterData?.spellsPerLevel?.let {
-            this.featureData.spellSlots?.let { it1 ->
-                mergeSpellMap(
-                    it,
-                    it1
-                )
-            }
-        }
+//        item.getClassData()?.casterData?.spellsPerLevel = item.getClassData()?.casterData?.spellsPerLevel?.let {
+//            this.featureData.spellSlots?.let { it1 ->
+//                mergeSpellMap(
+//                    it,
+//                    it1
+//                )
+//            }
+//        }
         return item
     }
 
-    private fun mergeSpellMap(original: MutableMap<Int, MutableMap<Int, Int>?>, additional: MutableMap<Int, MutableMap<Int, Int>?>): MutableMap<Int, MutableMap<Int, Int>?> {
+    private fun mergeSpellMap(original: MutableMap<Int, MutableMap<Int, Int>?>, additional: MutableMap<Int, MutableMap<Int, Int>>): MutableMap<Int, MutableMap<Int, Int>?> {
         additional.forEach { addSpellSet ->
             val currentLevel = original[addSpellSet.key]
-            addSpellSet.value?.forEach {
+            addSpellSet.value.forEach {
                 if (currentLevel?.get(it.key) == null) {
                     currentLevel?.set(it.key, it.value)
                 } else {

@@ -9,14 +9,13 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import chargen.app.ui.window.content.CharacterEditContent
-import chargen.app.ui.window.content.DataEditContent
 import chargen.app.root.ChargenRoot.Child.*
-import chargen.app.ui.window.content.CharacterNewContent
+import chargen.app.ui.window.content.*
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.*
@@ -35,15 +34,22 @@ fun ChargenRootContent(root: ChargenRoot, modifier: Modifier = Modifier) {
             animation = tabAnimation()
         ) {
             when (val child = it.instance) {
-                is CharacterNewChild -> CharacterNewContent(component = child.component, modifier = Modifier.fillMaxSize())
-                is CharacterEditChild -> CharacterEditContent(component = child.component, modifier = Modifier.fillMaxSize())
-                is DataEditChild -> DataEditContent(component = child.component, modifier = Modifier.fillMaxSize())
+                is ClassEdit -> ClassEditContent(component = child.component)
+                is ClassMain -> ClassMainContent(component = child.component)
+                is EditCharacter -> TODO()
+                is FeatureEdit -> FeatureEditContent(component = child.component)
+                is FeatureMain -> FeatureMainContent(component = child.component)
+                is NewCharacter -> TODO()
+                is RaceEdit -> RaceEditContent(component = child.component)
+                is RaceMain -> RaceMainContent(component = child.component)
+                is SkillEdit -> SkillEditContent(component = child.component)
+                is SkillMain -> SkillMainContent(component = child.component)
             }
         }
 
         BottomNavigation(modifier = Modifier.fillMaxWidth()) {
             BottomNavigationItem(
-                selected = activeComponent is CharacterNewChild,
+                selected = activeComponent is NewCharacter,
                 onClick = root::onNewCharacterClicked,
                 icon = {
                     Icon(
@@ -55,7 +61,7 @@ fun ChargenRootContent(root: ChargenRoot, modifier: Modifier = Modifier) {
             )
 
             BottomNavigationItem(
-                selected = activeComponent is CharacterEditChild,
+                selected = activeComponent is EditCharacter,
                 onClick = root::onEditCharacterClicked,
                 icon = {
                     Icon(
@@ -67,15 +73,51 @@ fun ChargenRootContent(root: ChargenRoot, modifier: Modifier = Modifier) {
             )
 
             BottomNavigationItem(
-                selected = activeComponent is DataEditChild,
-                onClick = root::onEditDataClicked,
+                selected = activeComponent is ClassMain,
+                onClick = root::onClassMainClicked,
                 icon = {
                     Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Edit Data"
+                        imageVector = Icons.Default.Create,
+                        contentDescription = "Edit Classes"
                     )
                 },
-                label = { Text("Edit Data") }
+                label = { Text("Edit Classes") }
+            )
+
+            BottomNavigationItem(
+                selected = activeComponent is FeatureMain,
+                onClick = root::onFeatureMainClicked,
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Create,
+                        contentDescription = "Edit Features"
+                    )
+                },
+                label = { Text("Edit Features") }
+            )
+
+            BottomNavigationItem(
+                selected = activeComponent is RaceMain,
+                onClick = root::onRaceMainClicked,
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Create,
+                        contentDescription = "Edit Races"
+                    )
+                },
+                label = { Text("Edit Races") }
+            )
+
+            BottomNavigationItem(
+                selected = activeComponent is SkillMain,
+                onClick = root::onSkillMainClicked,
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Create,
+                        contentDescription = "Edit Skills"
+                    )
+                },
+                label = { Text("Edit Skills") }
             )
         }
     }
@@ -94,9 +136,16 @@ private fun tabAnimation(): StackAnimation<Any, ChargenRoot.Child> =
 private val ChargenRoot.Child.index: Int
     get() =
         when (this) {
-            is ChargenRoot.Child.CharacterEditChild -> 0
-            is ChargenRoot.Child.DataEditChild -> 1
-            is ChargenRoot.Child.CharacterNewChild -> 2
+            is ClassEdit -> 0
+            is ClassMain -> 1
+            is EditCharacter -> 2
+            is FeatureEdit -> 3
+            is FeatureMain -> 4
+            is NewCharacter -> 5
+            is RaceEdit -> 6
+            is RaceMain -> 7
+            is SkillEdit -> 8
+            is SkillMain -> 9
         }
 
 @OptIn(ExperimentalDecomposeApi::class)

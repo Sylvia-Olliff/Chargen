@@ -10,11 +10,17 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
+    implementation(Deps.Jetbrains.Kotlin.gradlePlugin)
+    implementation(Deps.Squareup.SQLDelight.gradlePlugin)
+    implementation(Deps.Jetbrains.Compose.gradlePlugin)
 }
 
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(11))
     }
+}
+
+kotlin {
+    sourceSets.getByName("main").kotlin.srcDir("buildSrc/src/main/kotlin")
 }

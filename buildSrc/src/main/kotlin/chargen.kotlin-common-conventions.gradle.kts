@@ -10,14 +10,21 @@ repositories {
 }
 
 dependencies {
-//    constraints {
-//        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-//    }
+    implementation(Deps.Jetbrains.Kotlinx.serializationJson)
+    implementation(Deps.Jetbrains.Kotlinx.coroutines)
 
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    implementation(Deps.Badoo.Reaktive.reaktive)
+    implementation(Deps.Badoo.Reaktive.utils)
+    implementation(Deps.Badoo.Reaktive.coroutinesInterop)
+
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlin)
+    implementation(Deps.ArkIvanov.MVIKotlin.rx)
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinLogging)
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinMain)
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinTimeTravel)
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinExtensionsReaktive)
+
+    testImplementation(Deps.Badoo.Reaktive.reaktiveTesting)
 }
 
 java {

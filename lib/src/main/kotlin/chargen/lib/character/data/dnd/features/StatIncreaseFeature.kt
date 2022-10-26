@@ -11,16 +11,16 @@ internal class StatIncreaseFeature(override val featureData: FeatureData) : Feat
     override fun modifyCharacter(item: CharacterData): CharacterData {
         if (!verify(item)) return item
 
-        if (this.featureData.stat != null) {
-           if (this.featureData.sourceStat != null) {
-               val base = item.getStat(this.featureData.stat)
-               val modifier = Utils.convertAttributeToModifier(item.getStat(this.featureData.sourceStat))
-               item.setStat(this.featureData.stat, base + modifier)
-           } else if (this.featureData.value != null) {
-               val base = item.getStat(this.featureData.stat)
-               item.setStat(this.featureData.stat, base + this.featureData.value)
-           }
-        }
+//        if (this.featureData.stat != null) {
+//           if (this.featureData.sourceStat != null) {
+//               val base = item.getStat(this.featureData.stat)
+//               val modifier = Utils.convertAttributeToModifier(item.getStat(this.featureData.sourceStat))
+//               item.setStat(this.featureData.stat, base + modifier)
+//           } else if (this.featureData.value != null) {
+//               val base = item.getStat(this.featureData.stat)
+//               item.setStat(this.featureData.stat, base + this.featureData.value)
+//           }
+//        }
         return item
     }
 }

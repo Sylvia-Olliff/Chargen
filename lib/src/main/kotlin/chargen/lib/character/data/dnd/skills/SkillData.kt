@@ -1,16 +1,21 @@
 package chargen.lib.character.data.dnd.skills
 
+import chargen.database.SkillDataEntity
 import chargen.lib.character.data.dnd.templates.DataEntity
 import chargen.lib.character.data.dnd.types.Stats
-import chargen.lib.serializers.UUIDSerializer
 import kotlinx.serialization.Serializable
-import java.util.*
 
 @Serializable
 data class SkillData(
-    @Serializable(with = UUIDSerializer::class)
-    override val id: UUID,
-    var name: String,
+    override val id: Long,
+    override var name: String,
+    var description: String,
     var stat: Stats,
     var untrained: Boolean
 ): DataEntity
+
+fun SkillData.toEntity(): SkillDataEntity {
+    return SkillDataEntity(
+        id, name, description, stat, untrained
+    )
+}

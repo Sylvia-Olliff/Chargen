@@ -10,7 +10,7 @@ internal class ResourceIncreaseFeature(override val featureData: FeatureData) : 
     override fun modifyCharacter(item: CharacterData): CharacterData {
         if (!verify(item)) return item
 
-        item.getClassData()?.resource?.plus(this.featureData.value!!)
+//        item.getClassData()?.resource?.plus(this.featureData.value!!)
         return item
     }
 }

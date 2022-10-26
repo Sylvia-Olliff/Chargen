@@ -10,7 +10,7 @@ internal class ExtraAttackFeature(override val featureData: FeatureData) : Featu
     override fun modifyCharacter(item: CharacterData): CharacterData {
         if (!verify(item)) return item
 
-        item.getClassData()?.numAttacks?.plus(featureData.value!!)
+//        item.getClassData()?.numAttacks?.plus(featureData.value!!)
         return item
     }
 }
