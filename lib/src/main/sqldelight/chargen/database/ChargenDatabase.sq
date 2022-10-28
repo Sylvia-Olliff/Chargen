@@ -1,5 +1,7 @@
+import chargen.lib.character.data.dnd.Characteristics;
 import chargen.lib.character.data.dnd.classes.CasterClassData;
 import chargen.lib.character.data.dnd.templates.Proficiency;
+import chargen.lib.character.data.dnd.types.Alignment;
 import chargen.lib.character.data.dnd.types.DiceType;
 import chargen.lib.character.data.dnd.types.FeatureType;
 import chargen.lib.character.data.dnd.types.Stats;
@@ -7,6 +9,7 @@ import java.lang.Boolean;
 import java.lang.Long;
 import kotlin.collections.List;
 import kotlin.collections.Map;
+import kotlin.collections.MutableList;
 import kotlin.collections.MutableMap;
 
 
@@ -314,4 +317,146 @@ WHERE id = :id;
 updateSkillUntrained:
 UPDATE SkillDataEntity
 SET untrained = :untrained
+WHERE id = :id;
+
+CREATE TABLE IF NOT EXISTS CharacterDataEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    playerName TEXT,
+    characterName TEXT,
+    campaignName TEXT,
+    stats TEXT AS MutableMap<Stats, Int> NOT NULL,
+    raceDataId INTEGER,
+    classDataId INTEGER,
+    skillIds TEXT AS MutableMap<Long, Boolean> NOT NULL,
+    alignment TEXT AS Alignment,
+    background TEXT,
+    abilities TEXT AS MutableList<String> NOT NULL,
+    currentFeatureIds TEXT AS MutableList<Long> NOT NULL,
+    experience INTEGER AS Int NOT NULL,
+    level INTEGER AS Int NOT NULL,
+    characteristics TEXT AS Characteristics NOT NULL,
+    backstory TEXT,
+    notes TEXT
+);
+
+getCharacterData:
+SELECT *
+FROM CharacterDataEntity
+WHERE id = :id;
+
+getAllCharacters:
+SELECT *
+FROM CharacterDataEntity;
+
+getCharacterCurrentFeatures:
+SELECT currentFeatureIds
+FROM CharacterDataEntity
+WHERE id = :id;
+
+getCharacterStats:
+SELECT stats
+FROM CharacterDataEntity
+WHERE id = :id;
+
+getCharacterSkills:
+SELECT skillIds
+FROM CharacterDataEntity
+WHERE id = :id;
+
+getCharacterAbilities:
+SELECT abilities
+FROM CharacterDataEntity
+WHERE id = :id;
+
+registerCharacter:
+INSERT OR REPLACE INTO CharacterDataEntity(playerName, characterName, campaignName, stats,
+raceDataId, classDataId, skillIds, alignment, background, abilities, currentFeatureIds, experience,
+level, characteristics, backstory, notes)
+VALUES ?;
+
+deleteCharacter:
+DELETE FROM CharacterDataEntity
+WHERE id = :id;
+
+clearCharacters:
+DELETE FROM CharacterDataEntity;
+
+updateCharacterPlayerName:
+UPDATE CharacterDataEntity
+SET playerName = :playerName
+WHERE id = :id;
+
+updateCharacterName:
+UPDATE CharacterDataEntity
+SET characterName = :characterName
+WHERE id = :id;
+
+updateCampaignName:
+UPDATE CharacterDataEntity
+SET campaignName = :campaignName
+WHERE id = :id;
+
+updateCharacterStats:
+UPDATE CharacterDataEntity
+SET stats = :stats
+WHERE id = :id;
+
+updateCharacterRaceId:
+UPDATE CharacterDataEntity
+SET raceDataId = :raceDataId
+WHERE id = :id;
+
+updateCharacterClassId:
+UPDATE CharacterDataEntity
+SET classDataId = :classDataId
+WHERE id = :id;
+
+updateCharacterSkills:
+UPDATE CharacterDataEntity
+SET skillIds = :skillIds
+WHERE id = :id;
+
+updateCharacterAlignment:
+UPDATE CharacterDataEntity
+SET alignment = :alignment
+WHERE id = :id;
+
+updateCharacterBackground:
+UPDATE CharacterDataEntity
+SET background = :background
+WHERE id = :id;
+
+updateCharacterAbilities:
+UPDATE  CharacterDataEntity
+SET abilities = :abilities
+WHERE id = :id;
+
+updateCharacterCurrentFeatures:
+UPDATE CharacterDataEntity
+SET currentFeatureIds = :currentFeatureIds
+WHERE id = :id;
+
+updateCharacterExp:
+UPDATE CharacterDataEntity
+SET experience = :exp
+WHERE id = :id;
+
+updateCharacterLevel:
+UPDATE CharacterDataEntity
+SET level = :level
+WHERE id = :id;
+
+updateCharacterCharacteristics:
+UPDATE CharacterDataEntity
+SET characteristics = :characteristics
+WHERE id = :id;
+
+updateCharacterBackstory:
+UPDATE CharacterDataEntity
+SET backstory = :backstory
+WHERE id = :id;
+
+updateCharacterNotes:
+UPDATE CharacterDataEntity
+SET notes = :notes
 WHERE id = :id;

@@ -19,7 +19,20 @@ data class ClassData(
     var resourceName: String?,
     var resource: Int?,
     val casterData: CasterClassData?
-): DataEntity
+): DataEntity {
+    companion object {
+        val DEFAULT = ClassData(
+            0L,
+            "Class Name",
+            false,
+            DiceType.D6,
+            1,
+            mutableListOf(),
+            mutableListOf(),
+            null, null, null
+        )
+    }
+}
 
 fun ClassData.toEntity(): ClassDataEntity = ClassDataEntity(
     id,

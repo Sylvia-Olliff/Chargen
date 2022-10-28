@@ -1,6 +1,8 @@
 package chargen.app
 
 import androidx.compose.desktop.DesktopTheme
+import androidx.compose.foundation.LocalScrollbarStyle
+import androidx.compose.foundation.ScrollbarStyle
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +10,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -48,7 +51,16 @@ fun main() {
         ) {
             Surface(modifier = Modifier.fillMaxSize()) {
                 MaterialTheme {
-                    DesktopTheme {
+                    CompositionLocalProvider(
+                        LocalScrollbarStyle provides ScrollbarStyle(
+                            minimalHeight = 16.dp,
+                            thickness = 8.dp,
+                            shape = MaterialTheme.shapes.small,
+                            hoverDurationMillis = 300,
+                            unhoverColor = MaterialTheme.colors.onSurface.copy(alpha = 0.12f),
+                            hoverColor = MaterialTheme.colors.onSurface.copy(alpha = 0.50f)
+                        )
+                    ) {
                         ChargenRootContent(root)
                     }
                 }

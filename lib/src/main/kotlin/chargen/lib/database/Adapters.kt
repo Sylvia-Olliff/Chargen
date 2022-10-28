@@ -1,5 +1,6 @@
 package chargen.lib.database
 
+import chargen.lib.character.data.dnd.Characteristics
 import chargen.lib.character.data.dnd.classes.CasterClassData
 import chargen.lib.character.data.dnd.templates.Proficiency
 import chargen.lib.character.data.dnd.types.Stats
@@ -9,15 +10,15 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 
-val listOfStringsAdapter = object: ColumnAdapter<List<String>, String> {
-    override fun decode(databaseValue: String): List<String> {
+val listOfStringsAdapter = object: ColumnAdapter<MutableList<String>, String> {
+    override fun decode(databaseValue: String): MutableList<String> {
         return if (databaseValue.isEmpty()) {
-            listOf()
+            mutableListOf()
         } else {
-            databaseValue.split(",")
+            databaseValue.split(",").toMutableList()
         }
     }
-    override fun encode(value: List<String>): String { return value.joinToString(separator = ",") }
+    override fun encode(value: MutableList<String>): String { return value.joinToString(separator = ",") }
 }
 
 val listOfIntsAdapter = object: ColumnAdapter<List<Int>, String> {
@@ -44,6 +45,19 @@ val listOfLongsAdapter = object: ColumnAdapter<List<Long>, String> {
     }
 
     override fun encode(value: List<Long>): String { return value.joinToString(separator = ",") }
+}
+
+val mutableListOfLongsAdapter = object: ColumnAdapter<MutableList<Long>, String> {
+    override fun decode(databaseValue: String): MutableList<Long> {
+        return if (databaseValue.isEmpty()) {
+            mutableListOf()
+        } else {
+            val stringList = databaseValue.split(",")
+            stringList.map { it.toLong() }.toMutableList()
+        }
+    }
+
+    override fun encode(value: MutableList<Long>): String { return value.joinToString(separator = ",") }
 }
 
 val listOfProficienciesAdapter = object: ColumnAdapter<List<Proficiency>, String> {
@@ -135,3 +149,62 @@ val statMapAdapter = object: ColumnAdapter<Map<Stats, Int>, String> {
         }.joinToString(separator = ",")
     }
 }
+
+val statMutableMapAdapter = object: ColumnAdapter<MutableMap<Stats, Int>, String> {
+    override fun decode(databaseValue: String): MutableMap<Stats, Int> {
+        return if (databaseValue.isEmpty()) {
+            mutableMapOf()
+        } else {
+            val setArray = databaseValue.split(",")
+            val finalMap: MutableMap<Stats, Int> = mutableMapOf()
+            setArray.forEach {
+                val keyValue = it.split("=")
+                finalMap[Stats.valueOf(keyValue[0])] = keyValue[1].toInt()
+            }
+            finalMap
+        }
+    }
+
+    override fun encode(value: MutableMap<Stats, Int>): String {
+        return value.map {
+            "${it.key.name}=${it.value}"
+        }.joinToString(separator = ",")
+    }
+}
+
+val skillIdsMutableMapAdapter = object: ColumnAdapter<MutableMap<Long, Boolean>, String> {
+    override fun decode(databaseValue: String): MutableMap<Long, Boolean> {
+        return if (databaseValue.isEmpty()) {
+            mutableMapOf()
+        } else {
+            val setArray = databaseValue.split(",")
+            val finalMap: MutableMap<Long, Boolean> = mutableMapOf()
+            setArray.forEach {
+                val keyValue = it.split("=")
+                finalMap[keyValue[0].toLong()] = keyValue[1].toBoolean()
+            }
+            finalMap
+        }
+    }
+
+    override fun encode(value: MutableMap<Long, Boolean>): String {
+        return value.map {
+            "${it.key}=${it.value}"
+        }.joinToString(separator = ",")
+    }
+}
+
+val characteristicsAdapter = object: ColumnAdapter<Characteristics, String> {
+    override fun decode(databaseValue: String): Characteristics {
+        return if (databaseValue.isEmpty()) {
+            Characteristics(null, null, null, null, null, null)
+        } else {
+            Json.decodeFromString(databaseValue)
+        }
+    }
+
+    override fun encode(value: Characteristics): String {
+        return Json.encodeToString(value)
+    }
+}
+

@@ -25,6 +25,7 @@ fun RaceEditContent(
     val featureDisplay = remember { mutableStateOf(false) }
     val proficiencyToDisplay = remember { mutableStateOf(Proficiency.DEFAULT) }
     val featureToDisplay = remember { mutableStateOf(FeatureData.DEFAULT) }
+    val featureListDisplay = remember { mutableStateOf(false) }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         TopAppBar(
@@ -100,7 +101,7 @@ fun RaceEditContent(
 
         ItemInput(
             onItemAddClicked = {
-//                DisplayFeatureSelection(component::onAddFeatureClicked)
+                featureListDisplay.value = true
             }
         )
 
@@ -112,6 +113,7 @@ fun RaceEditContent(
 
         DisplayProficiency(proficiencyToDisplay, proficiencyDisplay)
         DisplayFeature(featureToDisplay, featureDisplay)
+        DisplayFeatureSelection(component::onAddFeatureClicked, featureListDisplay)
     }
 }
 
@@ -119,7 +121,8 @@ fun RaceEditContent(
 
 @Composable
 private fun DisplayFeatureSelection(
-    onAddClicked: (feature: FeatureData) -> Unit
+    onAddClicked: (feature: FeatureData) -> Unit,
+    display: MutableState<Boolean>
 ) {
     Text("TODO: Display a list of all applicable Features")
 }

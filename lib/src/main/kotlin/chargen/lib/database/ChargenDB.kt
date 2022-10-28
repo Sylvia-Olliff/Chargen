@@ -34,6 +34,14 @@ class ChargenDB {
                 ),
                 SkillDataEntityAdapter = SkillDataEntity.Adapter(
                     statAdapter = EnumColumnAdapter()
+                ),
+                CharacterDataEntityAdapter = CharacterDataEntity.Adapter(
+                    abilitiesAdapter = listOfStringsAdapter,
+                    alignmentAdapter = EnumColumnAdapter(),
+                    currentFeatureIdsAdapter = mutableListOfLongsAdapter,
+                    statsAdapter = statMutableMapAdapter,
+                    characteristicsAdapter = characteristicsAdapter,
+                    skillIdsAdapter = skillIdsMutableMapAdapter
                 )
             )
         }
