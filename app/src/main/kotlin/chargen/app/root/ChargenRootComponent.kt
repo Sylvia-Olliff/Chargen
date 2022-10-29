@@ -14,6 +14,7 @@ import com.badoo.reaktive.base.Consumer
 
 class ChargenRootComponent internal constructor(
     componentContext: ComponentContext,
+    private val characterMain: (ComponentContext, Consumer<CharacterMain.Output>) -> CharacterMain,
     private val featureMain: (ComponentContext, Consumer<FeatureMain.Output>) -> FeatureMain,
     private val featureEdit: (ComponentContext, itemId: Long, Consumer<FeatureEdit.Output>) -> FeatureEdit,
     private val classMain: (ComponentContext, Consumer<ClassMain.Output>) -> ClassMain,
@@ -29,6 +30,13 @@ class ChargenRootComponent internal constructor(
         storeFactory: StoreFactory
     ) : this(
         componentContext = componentContext,
+        characterMain = { childContext, output ->
+            CharacterMainComponent(
+                componentContext = childContext,
+                storeFactory = storeFactory,
+                output = output
+            )
+        },
         featureMain = { childContext, output ->
             FeatureMainComponent(
                 componentContext = childContext,
@@ -95,7 +103,7 @@ class ChargenRootComponent internal constructor(
 
     private val stack = childStack(
         source = navigation,
-        initialStack = { listOf(Config.CharacterNew) },
+        initialStack = { listOf(Config.CharacterMain) },
         childFactory = ::child
     )
 
@@ -103,16 +111,21 @@ class ChargenRootComponent internal constructor(
 
     private fun child(config: Config, componentContext: ComponentContext): Child =
         when (config) {
-            Config.CharacterEdit -> TODO()
-            Config.CharacterNew -> TODO()
+            Config.CharacterMain -> Child.CharacterMain(characterMain(componentContext, Consumer(::onCharacterMainOutput)))
             Config.ClassMain -> Child.ClassMain(classMain(componentContext, Consumer(::onClassMainOutput)))
             Config.FeatureMain -> Child.FeatureMain(featureMain(componentContext, Consumer(::onFeatureMainOutput)))
             Config.RaceMain -> Child.RaceMain(raceMain(componentContext, Consumer(::onRaceMainOutput)))
             Config.SkillMain -> Child.SkillMain(skillMain(componentContext, Consumer(::onSkillMainOutput)))
+            is Config.CharacterEdit -> TODO()
             is Config.ClassEdit -> Child.ClassEdit(classEdit(componentContext, config.itemId, Consumer(::onClassEditOutput)))
             is Config.FeatureEdit -> Child.FeatureEdit(featureEdit(componentContext, config.itemId, Consumer(::onFeatureEditOutput)))
             is Config.RaceEdit -> Child.RaceEdit(raceEdit(componentContext, config.itemId, Consumer(::onRaceEditOutput)))
             is Config.SkillEdit -> Child.SkillEdit(skillEdit(componentContext, config.itemId, Consumer(::onSkillEditOutput)))
+        }
+
+    private fun onCharacterMainOutput(output: CharacterMain.Output): Unit =
+        when (output) {
+            is CharacterMain.Output.Selected -> navigation.bringToFront(Config.CharacterEdit(output.id))
         }
 
     private fun onFeatureMainOutput(output: FeatureMain.Output): Unit =
@@ -155,12 +168,8 @@ class ChargenRootComponent internal constructor(
             is SkillEdit.Output.Finished -> navigation.pop()
         }
 
-    override fun onNewCharacterClicked() {
-        navigation.bringToFront(Config.CharacterNew)
-    }
-
-    override fun onEditCharacterClicked() {
-        navigation.bringToFront(Config.CharacterEdit)
+    override fun onCharacterMainClicked() {
+        navigation.bringToFront(Config.CharacterMain)
     }
 
     override fun onFeatureMainClicked() {
@@ -181,9 +190,9 @@ class ChargenRootComponent internal constructor(
 
     private sealed interface Config : Parcelable {
         @Parcelize
-        object CharacterNew: Config
+        object CharacterMain: Config
         @Parcelize
-        object CharacterEdit : Config
+        data class CharacterEdit(val itemId: Long) : Config
         @Parcelize
         object FeatureMain: Config
         @Parcelize

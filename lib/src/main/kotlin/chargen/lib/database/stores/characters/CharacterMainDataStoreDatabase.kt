@@ -18,5 +18,5 @@ class CharacterMainDataStoreDatabase: CharacterMainDataStoreProvider.Database {
 
     override fun deleteCharacter(id: Long): Completable =
         CharacterRepository.delete(id)
-    
+
 }

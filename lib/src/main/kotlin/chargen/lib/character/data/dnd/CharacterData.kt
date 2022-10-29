@@ -1,20 +1,20 @@
 package chargen.lib.character.data.dnd
 
 import chargen.database.CharacterDataEntity
-import chargen.lib.character.data.dnd.CharacterData
 import chargen.lib.character.data.dnd.classes.ClassData
 import chargen.lib.character.data.dnd.features.FeatureData
 import chargen.lib.character.data.dnd.races.RaceData
 import chargen.lib.character.data.dnd.skills.SkillData
+import chargen.lib.character.data.dnd.templates.DataEntity
 import chargen.lib.character.data.dnd.types.Alignment
 import chargen.lib.character.data.dnd.types.Stats
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class CharacterData(
-    val id: Long,
+    override val id: Long,
     var playerName: String?,
-    var characterName: String?,
+    override var name: String,
     var campaignName: String?,
     val stats: MutableMap<Stats, Int>,
     var raceData: RaceData?,
@@ -29,12 +29,12 @@ data class CharacterData(
     val characteristics: Characteristics,
     var backstory: String?,
     var notes: String?
-) {
+): DataEntity {
     companion object {
         val DEFAULT = CharacterData(
             0L,
             null,
-            null,
+            "Character Name",
             null,
             mutableMapOf(
                 Stats.STR to 10,
@@ -67,7 +67,7 @@ fun CharacterData.toEntity(): CharacterDataEntity {
     return CharacterDataEntity(
         id = id,
         playerName = playerName,
-        characterName = characterName,
+        characterName = name,
         campaignName = campaignName,
         raceDataId = raceData?.id,
         classDataId = classData?.id,

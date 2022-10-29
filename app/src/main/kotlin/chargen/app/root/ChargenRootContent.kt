@@ -1,7 +1,6 @@
 package chargen.app.root
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -36,10 +35,10 @@ fun ChargenRootContent(root: ChargenRoot, modifier: Modifier = Modifier) {
             when (val child = it.instance) {
                 is ClassEdit -> ClassEditContent(component = child.component)
                 is ClassMain -> ClassMainContent(component = child.component)
-                is EditCharacter -> TODO()
+                is CharacterEdit -> TODO()
                 is FeatureEdit -> FeatureEditContent(component = child.component)
                 is FeatureMain -> FeatureMainContent(component = child.component)
-                is NewCharacter -> TODO()
+                is CharacterMain -> CharacterMainContent(component = child.component)
                 is RaceEdit -> RaceEditContent(component = child.component)
                 is RaceMain -> RaceMainContent(component = child.component)
                 is SkillEdit -> SkillEditContent(component = child.component)
@@ -49,27 +48,15 @@ fun ChargenRootContent(root: ChargenRoot, modifier: Modifier = Modifier) {
 
         BottomNavigation(modifier = Modifier.fillMaxWidth()) {
             BottomNavigationItem(
-                selected = activeComponent is NewCharacter,
-                onClick = root::onNewCharacterClicked,
+                selected = activeComponent is CharacterMain,
+                onClick = root::onCharacterMainClicked,
                 icon = {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "New Character"
+                        contentDescription = "Edit Characters"
                     )
                 },
-                label = { Text(text = "New Character") }
-            )
-
-            BottomNavigationItem(
-                selected = activeComponent is EditCharacter,
-                onClick = root::onEditCharacterClicked,
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit Character"
-                    )
-                },
-                label = { Text(text = "Edit Character") }
+                label = { Text(text = "Edit Characters") }
             )
 
             BottomNavigationItem(
@@ -138,10 +125,10 @@ private val ChargenRoot.Child.index: Int
         when (this) {
             is ClassEdit -> 0
             is ClassMain -> 1
-            is EditCharacter -> 2
+            is CharacterEdit -> 2
             is FeatureEdit -> 3
             is FeatureMain -> 4
-            is NewCharacter -> 5
+            is CharacterMain -> 5
             is RaceEdit -> 6
             is RaceMain -> 7
             is SkillEdit -> 8

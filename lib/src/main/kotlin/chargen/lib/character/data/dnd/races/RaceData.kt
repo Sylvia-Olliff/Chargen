@@ -16,7 +16,19 @@ data class RaceData(
     val statMods: MutableMap<Stats, Int>,
     val proficiencies: MutableList<Proficiency>,
     val features: MutableList<Long>,
-): DataEntity
+): DataEntity {
+    companion object {
+        val DEFAULT = RaceData(
+            0L,
+            "Race Name",
+            "Race Name Plural",
+            "Race Description",
+            mutableMapOf(),
+            mutableListOf(),
+            mutableListOf()
+        )
+    }
+}
 
 fun RaceData.toEntity(): RaceDataEntity {
     return RaceDataEntity(
