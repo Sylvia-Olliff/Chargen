@@ -15,6 +15,10 @@ class SkillRepository {
             query(ChargenDatabaseQueries::getAllSkills)
                 .observe { it.executeAsList() }
 
+        fun selectAll(): Maybe<List<SkillDataEntity>> =
+            query(ChargenDatabaseQueries::getAllSkills)
+                .mapNotNull { it.executeAsList() }
+
         override fun select(id: Long): Maybe<SkillDataEntity> =
             query { it.getSkillData(id) }
                 .mapNotNull { it.executeAsOneOrNull() }

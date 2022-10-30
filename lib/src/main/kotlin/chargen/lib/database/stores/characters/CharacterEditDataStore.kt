@@ -8,32 +8,38 @@ import chargen.lib.character.data.dnd.races.RaceData
 import chargen.lib.character.data.dnd.skills.SkillData
 import chargen.lib.character.data.dnd.types.Alignment
 import chargen.lib.character.data.dnd.types.Stats
+import chargen.lib.character.data.dnd.utils.Utils
+import chargen.lib.database.SkillRepository
 import chargen.lib.database.stores.characters.CharacterEditDataStore.Intent
 import chargen.lib.database.stores.characters.CharacterEditDataStore.State
 import chargen.lib.database.stores.characters.CharacterEditDataStore.Label
+import chargen.lib.utils.toSkillData
 import com.arkivanov.mvikotlin.core.store.Store
+import com.badoo.reaktive.observable.map
 
 interface CharacterEditDataStore: Store<Intent, State, Label> {
     sealed class Intent {
         data class UpdatePlayerName(val name: String): Intent()
         data class UpdateCharacterName(val name: String): Intent()
         data class UpdateCampaignName(val name: String): Intent()
-        data class UpdateStats(val stats: MutableMap<Stats, Int>): Intent()
+        data class UpdateStats(val stat: Stats, val value: Int): Intent()
         data class UpdateRaceData(val raceId: Long): Intent()
         data class UpdateClassData(val classId: Long): Intent()
-        data class UpdateSkills(val skills: MutableMap<Long, Boolean>): Intent()
+        data class UpdateSkillIsTrained(val skillId: Long, val value: Boolean): Intent()
+        data class RemoveSkill(val skillId: Long): Intent()
         data class UpdateAlignment(val alignment: Alignment): Intent()
         data class UpdateBackground(val background: String): Intent()
         data class RemoveAbility(val ability: String): Intent()
         data class AddAbility(val ability: String): Intent()
-        data class AddFeature(val feature: FeatureData): Intent()
-        data class RemoveFeature(val feature: FeatureData): Intent()
+        data class AddFeature(val featureId: Long): Intent()
+        data class RemoveFeature(val featureId: Long): Intent()
         data class UpdateExperience(val exp: Int): Intent()
         data class UpdateLevel(val level: Int): Intent()
         data class UpdateCharacteristics(val characteristics: Characteristics): Intent()
         data class UpdateBackstory(val backstory: String): Intent()
         data class UpdateNotes(val notes: String): Intent()
     }
+
     data class State(
         var playerName: String = "Player name",
         var characterName: String = "Character Name",
@@ -49,9 +55,9 @@ interface CharacterEditDataStore: Store<Intent, State, Label> {
             Stats.PROF to 2,
             Stats.INIT to 0
         ),
-        var raceData: RaceData = RaceData.DEFAULT,
-        var classData: ClassData = ClassData.DEFAULT,
-        var skills: MutableMap<SkillData, Boolean> = mutableMapOf(),
+        var raceData: RaceData? = RaceData.DEFAULT,
+        var classData: ClassData? = ClassData.DEFAULT,
+        var skills: MutableMap<SkillData, Boolean> = Utils.buildSkillMap(),
         var alignment: Alignment = Alignment.NEUTRAL_TRUE,
         var background: String = "Character Background",
         var abilities: MutableList<String> = mutableListOf(),

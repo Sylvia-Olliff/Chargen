@@ -3,10 +3,7 @@ package chargen.lib.database
 import chargen.database.CharacterDataEntity
 import chargen.database.ChargenDatabaseQueries
 import chargen.lib.character.data.dnd.Characteristics
-import chargen.lib.character.data.dnd.classes.ClassData
 import chargen.lib.character.data.dnd.features.FeatureData
-import chargen.lib.character.data.dnd.races.RaceData
-import chargen.lib.character.data.dnd.skills.SkillData
 import chargen.lib.character.data.dnd.types.Alignment
 import chargen.lib.character.data.dnd.types.Stats
 import com.badoo.reaktive.completable.Completable
@@ -55,49 +52,49 @@ class CharacterRepository {
                 }
             }
 
-        fun addFeature(feature: FeatureData, id: Long): Completable =
+        fun addFeature(featureId: Long, id: Long): Completable =
             execute {
                 var currentFeatures = it.getCharacterCurrentFeatures(id).executeAsOneOrNull()
                 if (currentFeatures != null) {
-                    currentFeatures.add(feature.id)
+                    currentFeatures.add(featureId)
                 } else {
-                    currentFeatures = mutableListOf(feature.id)
+                    currentFeatures = mutableListOf(featureId)
                 }
                 it.updateCharacterCurrentFeatures(currentFeatures, id)
             }
 
-        fun removeFeature(feature: FeatureData, id: Long): Completable =
+        fun removeFeature(featureId: Long, id: Long): Completable =
             execute {
                 val currentFeatures = it.getCharacterCurrentFeatures(id).executeAsOneOrNull()
                 if (currentFeatures != null) {
-                    currentFeatures.remove(feature.id)
+                    currentFeatures.remove(featureId)
                     it.updateCharacterCurrentFeatures(currentFeatures, id)
                 }
             }
 
-        fun updateRaceData(race: RaceData, id: Long): Completable =
-            execute { it.updateCharacterRaceId(race.id, id) }
+        fun updateRaceData(raceId: Long, id: Long): Completable =
+            execute { it.updateCharacterRaceId(raceId, id) }
 
-        fun updateClassData(clazz: ClassData, id: Long): Completable =
-            execute { it.updateCharacterClassId(clazz.id, id) }
+        fun updateClassData(classId: Long, id: Long): Completable =
+            execute { it.updateCharacterClassId(classId, id) }
 
-        fun addOrUpdateSkill(skill: SkillData, isProficient: Boolean, id: Long): Completable =
+        fun addOrUpdateSkill(skillId: Long, isProficient: Boolean, id: Long): Completable =
             execute {
                 var skillIds = it.getCharacterSkills(id).executeAsOneOrNull()
                 if (skillIds != null) {
-                    skillIds[skill.id] = isProficient
+                    skillIds[skillId] = isProficient
                 } else {
                     skillIds = mutableMapOf(
-                        skill.id to isProficient
+                        skillId to isProficient
                     )
                 }
             }
 
-        fun removeSkill(skill: SkillData, id: Long): Completable =
+        fun removeSkill(skillId: Long, id: Long): Completable =
             execute {
                 val skillIds = it.getCharacterSkills(id).executeAsOneOrNull()
                 if (skillIds != null) {
-                    skillIds.remove(skill.id)
+                    skillIds.remove(skillId)
                     it.updateCharacterSkills(skillIds, id)
                 }
             }

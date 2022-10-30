@@ -6,6 +6,7 @@ import chargen.lib.character.data.dnd.features.FeatureData
 import chargen.lib.character.data.dnd.templates.Proficiency
 import chargen.lib.character.data.dnd.types.DiceType
 import chargen.lib.database.ClassRepository
+import chargen.lib.database.FeatureRepository
 import chargen.lib.utils.*
 import com.badoo.reaktive.completable.Completable
 import com.badoo.reaktive.maybe.Maybe
@@ -17,9 +18,9 @@ class ClassEditDataStoreDatabase: ClassEditDataStoreProvider.Database {
         ClassRepository.select(id)
             .map { it.toClassData() }
 
-    override fun loadFeature(id: Long): Maybe<FeatureData> {
-        TODO("Not yet implemented")
-    }
+    override fun loadFeature(id: Long): Maybe<FeatureData> =
+        FeatureRepository.select(id)
+            .map { it.toFeatureData() }
 
     override fun setName(id: Long, name: String): Completable =
         ClassRepository.updateName(id, name)

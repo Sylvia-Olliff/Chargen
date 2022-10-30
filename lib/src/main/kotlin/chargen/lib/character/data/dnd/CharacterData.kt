@@ -33,9 +33,9 @@ data class CharacterData(
     companion object {
         val DEFAULT = CharacterData(
             0L,
-            null,
+            "Player Name",
             "Character Name",
-            null,
+            "Campaign Name",
             mutableMapOf(
                 Stats.STR to 10,
                 Stats.DEX to 10,
