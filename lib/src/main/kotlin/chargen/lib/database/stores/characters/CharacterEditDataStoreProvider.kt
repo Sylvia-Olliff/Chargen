@@ -60,6 +60,9 @@ class CharacterEditDataStoreProvider(
         data class CharacteristicsChanged(val characteristics: Characteristics): Msg()
         data class BackstoryChanged(val backstory: String): Msg()
         data class NotesChanged(val notes: String): Msg()
+        data class FeaturesLoaded(val features: List<FeatureData>): Msg()
+        data class ClassesLoaded(val classes: List<ClassData>): Msg()
+        data class RacesLoaded(val races: List<RaceData>): Msg()
     }
 
     private inner class ExecutorImpl: ReaktiveExecutor<Intent, Unit, State, Msg, Label>() {
@@ -92,6 +95,9 @@ class CharacterEditDataStoreProvider(
                 is Intent.UpdateSkillIsTrained -> updateSkillIsTrained(intent.skillId, intent.value, getState())
                 is Intent.RemoveSkill -> removeSkill(intent.skillId, getState())
                 is Intent.UpdateStats -> updateStats(intent.stat, intent.value, getState())
+                Intent.LoadClasses -> TODO()
+                Intent.LoadFeatures -> TODO()
+                Intent.LoadRaces -> TODO()
             }
 
         private fun addAbility(ability: String, state: State) {
@@ -238,6 +244,18 @@ class CharacterEditDataStoreProvider(
             state.stats[stat] = value
             publishCharacter(state)
             database.setStat(id, stat, value).subscribeScoped()
+        }
+
+        private fun loadClasses(state: State) {
+            val classes =
+        }
+
+        private fun loadRaces(state: State) {
+
+        }
+
+        private fun loadFeatures(state: State) {
+
         }
 
         private fun publishCharacter(state: State) {

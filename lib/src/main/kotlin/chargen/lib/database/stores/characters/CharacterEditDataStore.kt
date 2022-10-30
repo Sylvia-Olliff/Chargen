@@ -38,6 +38,9 @@ interface CharacterEditDataStore: Store<Intent, State, Label> {
         data class UpdateCharacteristics(val characteristics: Characteristics): Intent()
         data class UpdateBackstory(val backstory: String): Intent()
         data class UpdateNotes(val notes: String): Intent()
+        object LoadFeatures: Intent()
+        object LoadClasses: Intent()
+        object LoadRaces: Intent()
     }
 
     data class State(
@@ -66,7 +69,11 @@ interface CharacterEditDataStore: Store<Intent, State, Label> {
         var level: Int = 0,
         var characteristics: Characteristics = Characteristics(null, null, null, null, null, null),
         var backstory: String = "Character backstory",
-        var notes: String = ""
+        var notes: String = "",
+
+        val features: List<FeatureData> = emptyList(),
+        val races: List<RaceData> = emptyList(),
+        val classes: List<ClassData> = emptyList()
     )
     sealed class Label {
         data class Changed(val item: CharacterData): Label()
