@@ -22,12 +22,18 @@ import chargen.lib.character.data.dnd.templates.Proficiency
 
 @Composable
 fun <E : Enum<E>> EnumSelectableList(
+    label: String,
     selected: E,
     onClick: (value: E) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopStart)) {
+    Text(label)
+
+    Spacer(modifier = Modifier.width(4.dp))
+
+    // Modifier.fillMaxSize().wrapContentSize(Alignment.TopStart)
+    Box {
         Text(selected.name, modifier = Modifier.fillMaxWidth().clickable { expanded = true }.background(
             Color.Gray))
         DropdownMenu(

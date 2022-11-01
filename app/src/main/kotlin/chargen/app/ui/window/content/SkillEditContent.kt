@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import chargen.app.ui.common.EnumSelectableList
 import chargen.app.ui.window.SkillEdit
+import chargen.lib.character.data.dnd.types.Stats
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 
 @Composable
@@ -32,35 +33,45 @@ fun SkillEditContent(
             }
         )
 
-        TextField(
-            value = model.name,
-            modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
-            label = { Text("Skill Name") },
-            onValueChange = component::onNameChanged
-        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+            TextField(
+                value = model.name,
+                modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
+                label = { Text("Skill Name") },
+                onValueChange = component::onNameChanged
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = model.description,
+                modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
+                label = { Text("Skill Description") },
+                onValueChange = component::onDescriptionChanged
+            )
+
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = model.description,
-            modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
-            label = { Text("Skill Description") },
-            onValueChange = component::onDescriptionChanged
-        )
+        Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+            EnumSelectableList(
+                "Select skill stat",
+                model.stat,
+                component::onStatChanged
+            )
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        EnumSelectableList(
-            model.stat,
-            component::onStatChanged
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text("Can use untrained?")
-        Checkbox(
-            checked = model.untrained,
-            onCheckedChange = component::onUntrainedChanged
-        )
+        Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+            Text("Can use untrained?")
+            Checkbox(
+                checked = model.untrained,
+                onCheckedChange = component::onUntrainedChanged
+            )
+        }
     }
 }

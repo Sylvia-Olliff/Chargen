@@ -15,12 +15,6 @@ interface SkillMainDataStore: Store<Intent, State, Nothing> {
 
     data class State(
         val items: List<SkillData> = emptyList(),
-        val selected: SkillData = SkillData(
-            0L,
-            "Skill Name",
-            "Skill Description",
-            Stats.NONE,
-            true
-        )
+        val selected: SkillData = SkillData.DEFAULT
     )
 }

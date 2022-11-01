@@ -77,6 +77,7 @@ fun FeatureEditContent(
 
         Row(modifier = Modifier.padding(4.dp)) {
             EnumSelectableList(
+                "Feature Type",
                 selected = model.featureType
             ) {
                 component.onFeatureTypeChanged(it)
@@ -98,6 +99,7 @@ fun FeatureEditContent(
 
         Row(modifier = Modifier.padding(4.dp)) {
             EnumSelectableList(
+                label = "Primary Stat",
                 selected = model.stat ?: Stats.NONE,
                 onClick = component::onStatChanged
             )
@@ -105,6 +107,7 @@ fun FeatureEditContent(
             Spacer(modifier = Modifier.width(4.dp))
 
             EnumSelectableList(
+                label = "Source Stat",
                 selected = model.sourceStat ?: Stats.NONE,
                 onClick = component::onSourceStatChanged
             )

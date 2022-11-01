@@ -25,7 +25,6 @@ import com.badoo.reaktive.scheduler.overrideSchedulers
 import kotlinx.coroutines.Dispatchers
 
 fun main() {
-//    overrideSchedulers(main = Dispatchers.Main::asScheduler)
     API.loadData()
 
     val lifecycle = LifecycleRegistry()

@@ -15,18 +15,6 @@ interface FeatureMainDataStore: Store<Intent, State, Nothing> {
 
     data class State(
         val items: List<FeatureData> = emptyList(),
-        val selected: FeatureData = FeatureData(
-            0L,
-            "Feature Name",
-            1,
-            "feature description",
-            "UNIVERSAL",
-            mutableListOf(),
-            FeatureType.NEW_ABILITY,
-            null,
-            null,
-            null,
-            mutableMapOf()
-        )
+        val selected: FeatureData = FeatureData.DEFAULT
     )
 }

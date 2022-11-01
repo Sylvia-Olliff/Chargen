@@ -17,5 +17,6 @@ dependencies {
 sqldelight {
     database("ChargenDatabase") {
         packageName = "chargen.lib.database"
+        sourceFolders = listOf("sqldelight", "resources")
     }
 }

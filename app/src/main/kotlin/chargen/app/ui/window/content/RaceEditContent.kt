@@ -23,8 +23,8 @@ fun RaceEditContent(
 
     val proficiencyDisplay = remember { mutableStateOf(false) }
     val featureDisplay = remember { mutableStateOf(false) }
-    val proficiencyToDisplay = remember { mutableStateOf(Proficiency.DEFAULT) }
-    val featureToDisplay = remember { mutableStateOf(FeatureData.DEFAULT) }
+    var proficiencyToDisplay = remember { mutableStateOf(Proficiency.DEFAULT) }
+    var featureToDisplay = remember { mutableStateOf(FeatureData.DEFAULT) }
     val featureListDisplay = remember { mutableStateOf(false) }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -60,58 +60,66 @@ fun RaceEditContent(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        TextField(
-            value = model.description,
-            modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
-            label = { Text("Race Description") },
-            onValueChange = component::onDescriptionChanged
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Box(Modifier.weight(1F)) {
-            ProficiencyList(
-                items = model.proficiencies,
-                onItemClicked = { proficiency ->
-                    proficiencyDisplay.value = true
-                    proficiencyToDisplay.value = proficiency
-                },
-                onItemDeleteClicked = component::onRemoveProficiencyClicked
+        Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+            TextField(
+                value = model.description,
+                modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
+                label = { Text("Race Description") },
+                onValueChange = component::onDescriptionChanged
             )
         }
 
-        ProficiencyInput(
-            onItemAddClicked = component::onAddProficiencyClicked
-        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+            Box(Modifier.weight(1F)) {
+                ProficiencyList(
+                    items = model.proficiencies,
+                    onItemClicked = { proficiency ->
+                        proficiencyDisplay.value = true
+                        proficiencyToDisplay.value = proficiency
+                    },
+                    onItemDeleteClicked = component::onRemoveProficiencyClicked
+                )
+            }
+
+            ProficiencyInput(
+                onItemAddClicked = component::onAddProficiencyClicked
+            )
+        }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(Modifier.weight(1F)) {
-            ItemList(
-                items = model.features,
-                onItemClicked = {featureId ->
-                    featureDisplay.value = true
-                    featureToDisplay.value = model.features.find { it.id == featureId }!!
-                },
-                onItemDeleteClicked = { featureId ->
-                    component.onRemoveFeatureClicked(model.features.find { it.id == featureId }!!)
+        Row(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+            Box(Modifier.weight(1F)) {
+                ItemList(
+                    items = model.features,
+                    onItemClicked = { featureId ->
+                        featureDisplay.value = true
+                        featureToDisplay.value = model.features.find { it.id == featureId }!!
+                    },
+                    onItemDeleteClicked = { featureId ->
+                        component.onRemoveFeatureClicked(model.features.find { it.id == featureId }!!)
+                    }
+                )
+            }
+
+            ItemInput(
+                onItemAddClicked = {
+                    featureListDisplay.value = true
                 }
             )
         }
 
-        ItemInput(
-            onItemAddClicked = {
-                featureListDisplay.value = true
-            }
-        )
-
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(Modifier.weight(1F)) {
-            Text("TODO: Implement display for StatMap")
-        }
 
-        DisplayProficiency(proficiencyToDisplay, proficiencyDisplay)
+
+        DisplayProficiency(proficiencyToDisplay, proficiencyDisplay, { name ->
+
+        }, { description ->
+
+        })
         DisplayFeature(featureToDisplay, featureDisplay)
         DisplayFeatureSelection(component::onAddFeatureClicked, featureListDisplay)
     }

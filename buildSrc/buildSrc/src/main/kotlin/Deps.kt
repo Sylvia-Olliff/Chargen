@@ -2,7 +2,7 @@
 object Deps {
     object Jetbrains {
         object Kotlin {
-            private val VERSION get() = "1.6.10"
+            private val VERSION get() = "1.7.20"
             val gradlePlugin get() = "org.jetbrains.kotlin:kotlin-gradle-plugin:$VERSION"
         }
         object Kotlinx {
@@ -11,7 +11,7 @@ object Deps {
             val serializationJson get() = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
         }
         object Compose {
-            val gradlePlugin get() = "org.jetbrains.compose:compose-gradle-plugin:1.1.0"
+            val gradlePlugin get() = "org.jetbrains.compose:compose-gradle-plugin:1.2.0"
         }
     }
 
@@ -59,7 +59,7 @@ object Deps {
 
     object Squareup {
         object SQLDelight {
-            private const val VERSION = "1.5.3"
+            private const val VERSION = "1.5.4"
             const val gradlePlugin = "com.squareup.sqldelight:gradle-plugin:$VERSION"
             const val sqliteDriver = "com.squareup.sqldelight:sqlite-driver:$VERSION"
             const val nativeDriver = "com.squareup.sqldelight:native-driver:$VERSION"

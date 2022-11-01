@@ -12,7 +12,17 @@ data class SkillData(
     var description: String,
     var stat: Stats,
     var untrained: Boolean
-): DataEntity
+): DataEntity {
+    companion object {
+        val DEFAULT = SkillData(
+            0L,
+            "Skill Name",
+            "Skill Description",
+            Stats.NONE,
+            false
+        )
+    }
+}
 
 fun SkillData.toEntity(): SkillDataEntity {
     return SkillDataEntity(

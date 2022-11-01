@@ -14,14 +14,6 @@ interface RaceMainDataStore: Store<Intent, State, Nothing> {
 
     data class State(
         val items: List<RaceData> = emptyList(),
-        val selected: RaceData = RaceData(
-            0L,
-            "Race Name",
-            "Race Name Plural",
-            "Race Description",
-            mutableMapOf(),
-            mutableListOf(),
-            mutableListOf()
-        )
+        val selected: RaceData = RaceData.DEFAULT
     )
 }
