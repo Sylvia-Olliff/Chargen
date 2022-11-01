@@ -29,6 +29,10 @@ val characterEditStateToModel: (CharacterEditDataStore.State) -> CharacterEdit.M
         level = it.level,
         characteristics = it.characteristics,
         backstory = it.backstory,
-        notes = it.notes
+        notes = it.notes,
+
+        features = it.features,
+        classes = it.classes,
+        races = it.races
     )
 }

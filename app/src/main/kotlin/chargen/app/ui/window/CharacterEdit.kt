@@ -12,19 +12,16 @@ import com.arkivanov.decompose.value.Value
 interface CharacterEdit {
 
     val models: Value<Model>
-    val features: List<FeatureData>
-    val classes: List<ClassData>
-    val races: List<RaceData>
 
     fun onCloseClicked()
+
+    fun onLoad()
 
     fun onPlayerNameChanged(name: String)
     fun onCharacterNameChanged(name: String)
     fun onCampaignNameChanged(name: String)
     fun onStatChanged(stat: Stats, value: Int)
-    fun onRaceClicked()
     fun onRaceSelected(race: RaceData)
-    fun onClassClicked()
     fun onClassSelected(clazz: ClassData)
     fun onSkillChanged(skill: SkillData, isProficient: Boolean)
     fun onAlignmentChanged(alignment: Alignment)
@@ -55,7 +52,11 @@ interface CharacterEdit {
         var exp: Int,
         var level: Int,
         val characteristics: Characteristics,
-        var notes: String
+        var notes: String,
+
+        var features: List<FeatureData>,
+        var classes: List<ClassData>,
+        var races: List<RaceData>
     )
 
     sealed class Output {

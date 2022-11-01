@@ -95,9 +95,9 @@ class CharacterEditDataStoreProvider(
                 is Intent.UpdateSkillIsTrained -> updateSkillIsTrained(intent.skillId, intent.value, getState())
                 is Intent.RemoveSkill -> removeSkill(intent.skillId, getState())
                 is Intent.UpdateStats -> updateStats(intent.stat, intent.value, getState())
-                Intent.LoadClasses -> TODO()
-                Intent.LoadFeatures -> TODO()
-                Intent.LoadRaces -> TODO()
+                Intent.LoadClasses -> loadClasses(getState())
+                Intent.LoadFeatures -> loadFeatures(getState())
+                Intent.LoadRaces -> loadRaces(getState())
             }
 
         private fun addAbility(ability: String, state: State) {
@@ -247,15 +247,24 @@ class CharacterEditDataStoreProvider(
         }
 
         private fun loadClasses(state: State) {
-            val classes =
+            val classes = database.loadClasses().blockingGet()!!
+            dispatch(Msg.ClassesLoaded(classes))
+            state.classes = classes
+            publishCharacter(state)
         }
 
         private fun loadRaces(state: State) {
-
+            val races = database.loadRaces().blockingGet()!!
+            dispatch(Msg.RacesLoaded(races))
+            state.races = races
+            publishCharacter(state)
         }
 
         private fun loadFeatures(state: State) {
-
+            val features = database.loadFeatures().blockingGet()!!
+            dispatch(Msg.FeaturesLoaded(features))
+            state.features = features
+            publishCharacter(state)
         }
 
         private fun publishCharacter(state: State) {
@@ -323,6 +332,9 @@ class CharacterEditDataStoreProvider(
                 is Msg.SkillChanged -> copy(skills = updateMap(skills, msg.skill, msg.isTrained))
                 is Msg.SkillRemoved -> copy(skills = updateMap(skills, msg.skill, false, true))
                 is Msg.StatsChanged -> copy(stats = updateMap(stats, msg.stat, msg.value))
+                is Msg.ClassesLoaded -> copy(classes = msg.classes)
+                is Msg.FeaturesLoaded -> copy(features = msg.features)
+                is Msg.RacesLoaded -> copy(races = msg.races)
             }
 
         private fun <T> updateList(list: MutableList<T>, item: T, remove: Boolean = false): MutableList<T> {
@@ -348,10 +360,13 @@ class CharacterEditDataStoreProvider(
         fun load(id: Long): Maybe<CharacterData>
 
         fun loadFeature(featureId: Long): Maybe<FeatureData>
+        fun loadFeatures(): Maybe<List<FeatureData>>
 
         fun loadRace(raceId: Long): Maybe<RaceData>
+        fun loadRaces(): Maybe<List<RaceData>>
 
         fun loadClass(classId: Long): Maybe<ClassData>
+        fun loadClasses(): Maybe<List<ClassData>>
 
         fun setPlayerName(id: Long, name: String): Completable
         fun setCharacterName(id: Long, name: String): Completable

@@ -7,6 +7,7 @@ object Deps {
         }
         object Kotlinx {
             val coroutines get() = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
+            val coroutinesAndroid get() = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
             val serializationJson get() = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
         }
         object Compose {
@@ -23,6 +24,7 @@ object Deps {
             const val mvikotlinLogging = "com.arkivanov.mvikotlin:mvikotlin-logging:$VERSION"
             const val mvikotlinTimeTravel = "com.arkivanov.mvikotlin:mvikotlin-timetravel:$VERSION"
             const val mvikotlinExtensionsReaktive = "com.arkivanov.mvikotlin:mvikotlin-extensions-reaktive:$VERSION"
+            const val mvikotlinExtensionsCoroutines = "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$VERSION"
         }
 
         object Decompose {

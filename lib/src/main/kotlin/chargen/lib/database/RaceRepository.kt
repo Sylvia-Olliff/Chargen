@@ -7,6 +7,7 @@ import chargen.lib.character.data.dnd.types.Stats
 import com.badoo.reaktive.completable.Completable
 import com.badoo.reaktive.maybe.Maybe
 import com.badoo.reaktive.observable.Observable
+import com.badoo.reaktive.single.map
 import com.badoo.reaktive.single.mapNotNull
 
 class RaceRepository {
@@ -19,6 +20,10 @@ class RaceRepository {
         override fun select(id: Long): Maybe<RaceDataEntity> =
             query { it.getRaceData(id) }
                 .mapNotNull { it.executeAsOneOrNull() }
+
+        fun selectAll(): Maybe<List<RaceDataEntity>> =
+            query(ChargenDatabaseQueries::getAllRaces)
+                .mapNotNull { it.executeAsList() }
 
         override fun add(entity: RaceDataEntity): Completable =
             execute { it.registerRaceData(entity) }

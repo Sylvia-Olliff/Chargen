@@ -103,7 +103,7 @@ fun CharacterDataEntity.toCharacterData(): CharacterData {
     return CharacterData(
         id = id,
         playerName = playerName,
-        name = characterName,
+        name = characterName ?: "",
         campaignName = campaignName,
         stats = stats,
         raceData = raceData,

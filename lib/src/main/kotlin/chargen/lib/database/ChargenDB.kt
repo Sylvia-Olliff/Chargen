@@ -1,13 +1,16 @@
 package chargen.lib.database
 
 import chargen.database.*
+import chargen.lib.config.AppConfig
+import chargen.lib.config.Config
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import com.squareup.sqldelight.EnumColumnAdapter
 
 class ChargenDB {
     companion object {
-        private val driver: SqlDriver = JdbcSqliteDriver("jdbc:sqlite:data/chargenData.db")
+        private val config: AppConfig = Config.getConfig()
+        private val driver: SqlDriver = JdbcSqliteDriver("jdbc:sqlite:${config.registry.dataLocation}${config.registry.dbName}.db")
         private val DATA: ChargenDatabase
 
         init {

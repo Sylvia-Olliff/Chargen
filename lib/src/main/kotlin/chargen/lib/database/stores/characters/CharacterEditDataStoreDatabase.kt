@@ -28,13 +28,25 @@ class CharacterEditDataStoreDatabase: CharacterEditDataStoreProvider.Database {
         FeatureRepository.select(featureId)
             .map { it.toFeatureData() }
 
+    override fun loadFeatures(): Maybe<List<FeatureData>> =
+        FeatureRepository.selectAll()
+            .map { featureDataEntities -> featureDataEntities.map { it.toFeatureData() } }
+
     override fun loadRace(raceId: Long): Maybe<RaceData> =
         RaceRepository.select(raceId)
             .map { it.toRaceData() }
 
+    override fun loadRaces(): Maybe<List<RaceData>> =
+        RaceRepository.selectAll()
+            .map { raceDataEntities -> raceDataEntities.map { it.toRaceData() } }
+
     override fun loadClass(classId: Long): Maybe<ClassData> =
         ClassRepository.select(classId)
             .map { it.toClassData() }
+
+    override fun loadClasses(): Maybe<List<ClassData>> =
+        ClassRepository.selectAll()
+            .map { classDataEntities -> classDataEntities.map { it.toClassData() } }
 
     override fun setPlayerName(id: Long, name: String): Completable =
         CharacterRepository.updatePlayerName(name, id)

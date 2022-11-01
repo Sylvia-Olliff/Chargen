@@ -1,0 +1,26 @@
+registry:
+  data-location: "data/"
+  db-name: "chargenData"
+
+dnd-config:
+  level-chart:
+    first: 0
+    second: 300
+    third: 900
+    fourth: 2700
+    fifth: 6500
+    sixth: 14000
+    seventh: 23000
+    eighth: 34000
+    ninth: 48000
+    tenth: 64000
+    eleventh: 85000
+    twelfth: 100000
+    thirteenth: 120000
+    fourteenth: 140000
+    fifteenth: 165000
+    sixteenth: 195000
+    seventeenth: 225000
+    eighteenth: 265000
+    nineteenth: 305000
+    twentieth: 355000

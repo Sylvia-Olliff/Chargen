@@ -88,6 +88,7 @@ class CharacterRepository {
                         skillId to isProficient
                     )
                 }
+                it.updateCharacterSkills(skillIds, id)
             }
 
         fun removeSkill(skillId: Long, id: Long): Completable =

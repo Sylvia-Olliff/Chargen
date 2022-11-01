@@ -7,6 +7,7 @@ import chargen.lib.character.data.dnd.types.Stats
 import com.badoo.reaktive.completable.Completable
 import com.badoo.reaktive.maybe.Maybe
 import com.badoo.reaktive.observable.Observable
+import com.badoo.reaktive.single.map
 import com.badoo.reaktive.single.mapNotNull
 
 class FeatureRepository {
@@ -15,6 +16,10 @@ class FeatureRepository {
         override fun observeAll(): Observable<List<FeatureDataEntity>> =
             query(ChargenDatabaseQueries::getAllFeatures)
                 .observe { it.executeAsList() }
+
+        fun selectAll(): Maybe<List<FeatureDataEntity>> =
+            query(ChargenDatabaseQueries::getAllFeatures)
+                .mapNotNull { it.executeAsList() }
 
         override fun select(id: Long): Maybe<FeatureDataEntity> =
             query { it.getFeature(id) }

@@ -7,7 +7,7 @@ import com.sksamuel.hoplite.watch.ReloadableConfig
 
 class Config {
     companion object {
-        private const val configFilePath = "application.yml"
+        private const val configFilePath = "/application.yml"
         private lateinit var appConfig: ReloadableConfig<AppConfig>
         private val watcher = FixedIntervalWatchable(10000)
 

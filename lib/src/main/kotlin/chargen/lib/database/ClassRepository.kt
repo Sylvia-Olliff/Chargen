@@ -24,6 +24,10 @@ class ClassRepository {
             query { it.getClassData(id) }
                 .mapNotNull { it.executeAsOneOrNull() }
 
+        fun selectAll(): Maybe<List<ClassDataEntity>> =
+            query(ChargenDatabaseQueries::getClassDataAll)
+                .mapNotNull { it.executeAsList() }
+
         fun selectFeatures(id: Long): Maybe<GetFeatureList> =
             query { it.getFeatureList(id) }
                 .mapNotNull { it.executeAsOneOrNull() }

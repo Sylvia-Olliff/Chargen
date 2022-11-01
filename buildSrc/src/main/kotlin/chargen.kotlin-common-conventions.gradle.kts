@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation(Deps.Jetbrains.Kotlinx.serializationJson)
     implementation(Deps.Jetbrains.Kotlinx.coroutines)
+//    implementation(Deps.Jetbrains.Kotlinx.coroutinesAndroid)
 
     implementation(Deps.Badoo.Reaktive.reaktive)
     implementation(Deps.Badoo.Reaktive.utils)
@@ -23,6 +24,7 @@ dependencies {
     implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinMain)
     implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinTimeTravel)
     implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinExtensionsReaktive)
+    implementation(Deps.ArkIvanov.MVIKotlin.mvikotlinExtensionsCoroutines)
 
     testImplementation(Deps.Badoo.Reaktive.reaktiveTesting)
 }

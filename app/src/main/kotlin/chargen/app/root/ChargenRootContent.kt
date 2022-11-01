@@ -35,7 +35,7 @@ fun ChargenRootContent(root: ChargenRoot, modifier: Modifier = Modifier) {
             when (val child = it.instance) {
                 is ClassEdit -> ClassEditContent(component = child.component)
                 is ClassMain -> ClassMainContent(component = child.component)
-                is CharacterEdit -> TODO()
+                is CharacterEdit -> CharacterEditContent(component = child.component)
                 is FeatureEdit -> FeatureEditContent(component = child.component)
                 is FeatureMain -> FeatureMainContent(component = child.component)
                 is CharacterMain -> CharacterMainContent(component = child.component)

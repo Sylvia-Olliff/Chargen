@@ -15,6 +15,7 @@ import com.badoo.reaktive.base.Consumer
 class ChargenRootComponent internal constructor(
     componentContext: ComponentContext,
     private val characterMain: (ComponentContext, Consumer<CharacterMain.Output>) -> CharacterMain,
+    private val characterEdit: (ComponentContext, itemId: Long, Consumer<CharacterEdit.Output>) -> CharacterEdit,
     private val featureMain: (ComponentContext, Consumer<FeatureMain.Output>) -> FeatureMain,
     private val featureEdit: (ComponentContext, itemId: Long, Consumer<FeatureEdit.Output>) -> FeatureEdit,
     private val classMain: (ComponentContext, Consumer<ClassMain.Output>) -> ClassMain,
@@ -34,6 +35,14 @@ class ChargenRootComponent internal constructor(
             CharacterMainComponent(
                 componentContext = childContext,
                 storeFactory = storeFactory,
+                output = output
+            )
+        },
+        characterEdit = { childContext, itemId, output ->
+            CharacterEditComponent(
+                componentContext = childContext,
+                storeFactory = storeFactory,
+                itemId = itemId,
                 output = output
             )
         },
@@ -116,7 +125,7 @@ class ChargenRootComponent internal constructor(
             Config.FeatureMain -> Child.FeatureMain(featureMain(componentContext, Consumer(::onFeatureMainOutput)))
             Config.RaceMain -> Child.RaceMain(raceMain(componentContext, Consumer(::onRaceMainOutput)))
             Config.SkillMain -> Child.SkillMain(skillMain(componentContext, Consumer(::onSkillMainOutput)))
-            is Config.CharacterEdit -> TODO()
+            is Config.CharacterEdit -> Child.CharacterEdit(characterEdit(componentContext, config.itemId, Consumer(::onCharacterEditOutput)))
             is Config.ClassEdit -> Child.ClassEdit(classEdit(componentContext, config.itemId, Consumer(::onClassEditOutput)))
             is Config.FeatureEdit -> Child.FeatureEdit(featureEdit(componentContext, config.itemId, Consumer(::onFeatureEditOutput)))
             is Config.RaceEdit -> Child.RaceEdit(raceEdit(componentContext, config.itemId, Consumer(::onRaceEditOutput)))
@@ -126,6 +135,11 @@ class ChargenRootComponent internal constructor(
     private fun onCharacterMainOutput(output: CharacterMain.Output): Unit =
         when (output) {
             is CharacterMain.Output.Selected -> navigation.bringToFront(Config.CharacterEdit(output.id))
+        }
+
+    private fun onCharacterEditOutput(output: CharacterEdit.Output): Unit =
+        when (output) {
+            is CharacterEdit.Output.Finished -> navigation.pop()
         }
 
     private fun onFeatureMainOutput(output: FeatureMain.Output): Unit =

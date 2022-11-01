@@ -9,13 +9,10 @@ import chargen.lib.character.data.dnd.skills.SkillData
 import chargen.lib.character.data.dnd.types.Alignment
 import chargen.lib.character.data.dnd.types.Stats
 import chargen.lib.character.data.dnd.utils.Utils
-import chargen.lib.database.SkillRepository
 import chargen.lib.database.stores.characters.CharacterEditDataStore.Intent
 import chargen.lib.database.stores.characters.CharacterEditDataStore.State
 import chargen.lib.database.stores.characters.CharacterEditDataStore.Label
-import chargen.lib.utils.toSkillData
 import com.arkivanov.mvikotlin.core.store.Store
-import com.badoo.reaktive.observable.map
 
 interface CharacterEditDataStore: Store<Intent, State, Label> {
     sealed class Intent {
@@ -71,9 +68,9 @@ interface CharacterEditDataStore: Store<Intent, State, Label> {
         var backstory: String = "Character backstory",
         var notes: String = "",
 
-        val features: List<FeatureData> = emptyList(),
-        val races: List<RaceData> = emptyList(),
-        val classes: List<ClassData> = emptyList()
+        var features: List<FeatureData> = emptyList(),
+        var races: List<RaceData> = emptyList(),
+        var classes: List<ClassData> = emptyList()
     )
     sealed class Label {
         data class Changed(val item: CharacterData): Label()
