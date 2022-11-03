@@ -36,21 +36,23 @@ fun FeatureEditContent(
             }
         )
 
-        TextField(
-            value = model.name,
-            modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
-            label = { Text("Feature Name") },
-            onValueChange = component::onNameChanged
-        )
+        Row(modifier = Modifier.padding(4.dp)) {
+            TextField(
+                value = model.name,
+                modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
+                label = { Text("Feature Name") },
+                onValueChange = component::onNameChanged
+            )
 
-        Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
-        TextField(
-            value = model.description,
-            modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
-            label = { Text("Description") },
-            onValueChange = component::onDescriptionChanged
-        )
+            TextField(
+                value = model.description,
+                modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
+                label = { Text("Description") },
+                onValueChange = component::onDescriptionChanged
+            )
+        }
 
         Spacer(modifier = Modifier.padding(4.dp))
 
@@ -68,29 +70,41 @@ fun FeatureEditContent(
                 value = model.levelGained.toString(),
                 modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
                 label = { Text("Level Gained") },
-                onValueChange = { component.onLevelGainedChanged(it.toInt()) },
+                onValueChange = {
+                    if (it.isNotEmpty()) {
+                        try {
+                            component.onLevelGainedChanged(it.toInt())
+                        } catch (_: Exception) {}
+                    }
+                },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
         }
 
         Spacer(modifier = Modifier.padding(4.dp))
 
+        EnumSelectableList(
+            "Feature Type",
+            selected = model.featureType
+        ) {
+            component.onFeatureTypeChanged(it)
+            spellSlotsEnabled = it == FeatureType.SPELL_SLOTS
+        }
+
+        Spacer(modifier = Modifier.padding(4.dp))
+
         Row(modifier = Modifier.padding(4.dp)) {
-            EnumSelectableList(
-                "Feature Type",
-                selected = model.featureType
-            ) {
-                component.onFeatureTypeChanged(it)
-                spellSlotsEnabled = it == FeatureType.SPELL_SLOTS
-            }
-
-            Spacer(modifier = Modifier.width(4.dp))
-
             TextField(
                 value = model.value.toString(),
                 modifier = Modifier.weight(1F).fillMaxWidth().padding(8.dp),
                 label = { Text("Value") },
-                onValueChange = { component.onValueChanged(it.toInt()) },
+                onValueChange = {
+                    if (it.isNotEmpty()) {
+                        try {
+                            component.onValueChanged(it.toInt())
+                        } catch (_: Exception) {}
+                    }
+                },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
         }
