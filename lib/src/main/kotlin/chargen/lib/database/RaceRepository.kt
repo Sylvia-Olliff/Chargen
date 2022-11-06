@@ -21,6 +21,10 @@ class RaceRepository {
             query { it.getRaceData(id) }
                 .mapNotNull { it.executeAsOneOrNull() }
 
+        fun selectByName(name: String): Maybe<RaceDataEntity> =
+            query { it.getRaceDataByName(name) }
+                .mapNotNull { it.executeAsOneOrNull() }
+
         fun selectAll(): Maybe<List<RaceDataEntity>> =
             query(ChargenDatabaseQueries::getAllRaces)
                 .mapNotNull { it.executeAsList() }

@@ -216,6 +216,11 @@ SELECT *
 FROM RaceDataEntity
 WHERE id = ?;
 
+getRaceDataByName:
+SELECT *
+FROM RaceDataEntity
+WHERE name = :name;
+
 getAllRaces:
 SELECT *
 FROM RaceDataEntity;

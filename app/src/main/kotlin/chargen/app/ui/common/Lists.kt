@@ -208,7 +208,7 @@ fun ProficiencyInput(
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
         Spacer(modifier = Modifier.width(8.dp))
 
-        IconButton(onClick = { onItemAddClicked(Proficiency("Proficiency Name", "Proficiency Description")) }) {
+        IconButton(onClick = { onItemAddClicked(Proficiency.DEFAULT) }) {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = null

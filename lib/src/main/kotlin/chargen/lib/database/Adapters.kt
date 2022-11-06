@@ -3,6 +3,7 @@ package chargen.lib.database
 import chargen.lib.character.data.dnd.Characteristics
 import chargen.lib.character.data.dnd.classes.CasterClassData
 import chargen.lib.character.data.dnd.templates.Proficiency
+import chargen.lib.character.data.dnd.types.ProficiencyType
 import chargen.lib.character.data.dnd.types.Stats
 import com.squareup.sqldelight.ColumnAdapter
 import kotlinx.serialization.decodeFromString
@@ -68,8 +69,8 @@ val listOfProficienciesAdapter = object: ColumnAdapter<List<Proficiency>, String
             val setArray = databaseValue.split(",")
             val finalList: MutableList<Proficiency> = mutableListOf()
             setArray.forEach {
-                val keyValue = it.split("=")
-                finalList.add(Proficiency(name = keyValue[0], description = keyValue[1]))
+                val keyValue = it.split(":")
+                finalList.add(Proficiency(name = keyValue[0], description = keyValue[1], type = ProficiencyType.valueOf(keyValue[2])))
             }
             finalList
         }
@@ -77,7 +78,7 @@ val listOfProficienciesAdapter = object: ColumnAdapter<List<Proficiency>, String
 
     override fun encode(value: List<Proficiency>): String {
         return value.joinToString(separator = ",") {
-            "${it.name}=${it.description}"
+            "${it.name}:${it.description}:${it.type.name}"
         }
     }
 }
