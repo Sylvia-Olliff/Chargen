@@ -18,5 +18,5 @@ abstract class Loader<T : DataEntity> {
 
     protected abstract fun loadEntries()
 
-    public abstract fun load(forceReload: Boolean)
+    public abstract fun load(forceReload: Boolean = false)
 }

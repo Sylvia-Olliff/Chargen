@@ -1,5 +1,6 @@
 package chargen.lib
 
+import chargen.lib.character.data.dnd.loaders.SkillLoader
 import chargen.lib.character.data.dnd.utils.Utils
 import chargen.lib.config.Config
 import chargen.lib.database.*
@@ -35,6 +36,8 @@ class API {
             RaceRepository.loadRepo()
             SkillRepository.loadRepo()
             CharacterRepository.loadRepo()
+
+            SkillLoader.load()
         }
 
         /* GETTERS */
