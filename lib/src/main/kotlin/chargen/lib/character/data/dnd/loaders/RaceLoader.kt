@@ -8,7 +8,6 @@ import chargen.lib.character.data.dnd.types.ProficiencyType
 import chargen.lib.character.data.dnd.types.Stats
 import chargen.lib.utils.toFeatureData
 import chargen.lib.utils.toRaceData
-import java.util.*
 import kotlin.reflect.full.memberProperties
 
 object RaceLoader : Loader<RaceData>() {
@@ -60,7 +59,7 @@ object RaceLoader : Loader<RaceData>() {
             val feyAncestry = getFeatureByName("Fey Ancestry")!!
             val trance = getFeatureByName("Trance")!!
             val darkvision = getFeatureByName("Darkvision")!!
-            
+
             RaceData(
                 id = 0L,
                 name = "Elf",
