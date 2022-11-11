@@ -5,5 +5,6 @@ enum class FeatureType {
     SPELL_SLOTS,
     EXTRA_ATTACK,
     RESOURCE_INCREASE,
-    NEW_ABILITY
+    NEW_ABILITY,
+    PROFICIENCY
 }

@@ -122,6 +122,8 @@ object RaceLoader : Loader<RaceData>() {
         }
 
         val Dwarf: () -> RaceData = {
+            val darkvision = getFeatureByName("Darkvision")!!
+            val stonecunning = getFeatureByName("Stonecunning")!!
             RaceData(
                 id = 0L,
                 name = "Dwarf",
@@ -138,7 +140,10 @@ object RaceLoader : Loader<RaceData>() {
                     Proficiency("Light Hammer", "Proficiency with the use of Light Hammers", ProficiencyType.WEAPON),
                     Proficiency("Warhammer", "Proficiency with the use of Warhammers", ProficiencyType.WEAPON)
                 ),
-                features = mutableListOf() //TODO: Update to reference features once they are loaded
+                features = mutableListOf(
+                    darkvision.id,
+                    stonecunning.id
+                )
             )
         }
 
